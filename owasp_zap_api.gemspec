@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.add_dependency('http')
   s.authors     = 'xyzkab'
   s.email       = 'xyzkab@l33tzapj'
-  s.files       = Dir['{bin,lib,config}/**/*', 'README*'] & `git ls-files -z`.split("\0")
+  s.files       = Dir['{bin,lib}/**/*', 'README*'] & `git ls-files -z`.split("\0")
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f)}
   s.homepage    = 'https://github.com/xyzkab/owasp_zap_api'
   s.license     = 'Nonstandard'
