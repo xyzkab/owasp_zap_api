@@ -8,7 +8,7 @@ module OwaspZapApi
       @baseurl = params[:baseurl]
       @url = ZAPI + "#{@format}/core/"
     end
-    def list
+    def messages
       @url += "view/messages"
       query = {:zapapiformat => @format,:baseurl => @baseurl,:start => @start,:count => @count}
       Requester.get(@url,query)
