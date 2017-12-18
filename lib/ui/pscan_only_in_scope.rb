@@ -3,15 +3,15 @@ module OwaspZapApi
     def initialize(params = {})
       @scope = params[:scope]
       @format = params[:format] || 'JSON'
-      @url = ZAPI + 
+      @url = ZAPI + "#{@format}/pscan/"
     end
     def set
-      url = ZAPI + "#{@format}/pscan/action/setScanOnlyInScope/"
+      @url += "action/setScanOnlyInScope/"
       query = {:zapapiformat => @format,:onlyInScope => @scope}
       Requester.get(url,query)
     end
     def view
-      url = ZAPI + "#{@format}/pscan/view/scanOnlyInScope/"
+      @url += "view/scanOnlyInScope/"
       query = {:zapapiformat => @format}
       Requester.get(url,query)
     end
