@@ -7,19 +7,19 @@ module OwaspZapApi
       @url = ZAPI + "#{@format}/context/"
     end
     def list
-      @url += "view/contextList/"
+      url = @url + "view/contextList/"
       query = {:zapapiformat => @format}
-      Requester.get(@url,query)
+      Requester.get(url,query)
     end
     def import
-      @url += "action/importContext/"
+      url = @url + "action/importContext/"
       query = {:zapapiformat => @format,:contextFile => @file}
-      Requester.get(@url,query)
+      Requester.get(url,query)
     end
     def remove
-      @url += "action/removeContext/"
+      url = @url + "action/removeContext/"
       query = {:zapapiformat => @format,:contextName => @name}
-      Requester.get(@url,query)
+      Requester.get(url,query)
     end
   end
 end

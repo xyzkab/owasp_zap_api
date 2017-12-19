@@ -9,14 +9,14 @@ module OwaspZapApi
       @url = ZAPI + "#{@format}/core/"
     end
     def alerts
-      @url += "view/alerts/"
+      url = @url + "view/alerts/"
       query = {:zapapiformat => @format,:baseurl => @baseurl,:start => @start,:count => @count}
-      Requester.get(@url,query)
+      Requester.get(url,query)
     end
     def number
-      @url += "view/numberOfAlerts"
+      url = @url + "view/numberOfAlerts"
       query = {:zapapiformat => @format,:baseurl => @baseurl}
-      Requester.get(@url,query)
+      Requester.get(url,query)
     end
   end
 end
