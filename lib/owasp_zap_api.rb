@@ -36,7 +36,7 @@ module OwaspZapApi
   end
   def self.total_alerts(baseurl = nil)
     na = Alert.new(baseurl: baseurl)
-    na.alerts_number['numberOfAlerts'].to_i
+    na.number['numberOfAlerts'].to_i
   end
   def self.messages(baseurl = nil, start = nil, count = nil)
     ms = Message.new(baseurl: baseurl, start: start, count: count)
