@@ -30,6 +30,9 @@ module OwaspZapApi
     cx = Context.new(file: file)
     cx.import
   end
+  def self.context_imported?(name)
+    contexts['contextList'].include?(name)
+  end
   def self.context_export(name,file)
     cx = Context.new(name: name, file: file)
     cx.export
@@ -53,6 +56,10 @@ module OwaspZapApi
   def self.message(id)
     ms = Message.new(id: id)
     ms.message['message']
+  end
+  def self.message_ctype(id)
+    message(id)['responseHeader'].match(/Content-Type: (.*)\r/)
+    $1
   end
   def self.messages(baseurl = nil, start = nil, count = nil)
     ms = Message.new(baseurl: baseurl, start: start, count: count)
