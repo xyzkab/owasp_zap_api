@@ -16,6 +16,7 @@ module OwaspZapApi
       @name ||= name
       url = @url + "action/newContext"
       query = {:zapapiformat => @format,:contextName => @name}
+      Requester.get(url,query)
     end
     def import(file = nil)
       @file ||= file
