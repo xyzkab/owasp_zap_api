@@ -31,7 +31,8 @@ module OwaspZapApi
       query = {:zapapiformat => @format,:contextName => @name,:contextFile => @file}
       Requester.get(url,query)
     end
-    def remove
+    def remove(name = nil)
+      @name ||= name
       url = @url + "action/removeContext/"
       query = {:zapapiformat => @format,:contextName => @name}
       Requester.get(url,query)
