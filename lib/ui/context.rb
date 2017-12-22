@@ -36,10 +36,29 @@ module OwaspZapApi
       query = {:zapapiformat => @format,:contextName => @name}
       Requester.get(url,query)
     end
+    def include_regexs(name = nil)
+      @name ||= name
+      url = @url + "view/includeRegexs/"
+      query = {:zapapiformat => @format,:contextName => @name}
+      Requester.get(url,query)
+    end
+    def exclude_regexs(name = nil)
+      @name ||= name
+      url = @url + "view/excludeRegexs/"
+      query = {:zapapiformat => @format,:contextName => @name}
+      Requester.get(url,query)
+    end
     def include_in_context(name = nil,regex = nil)
       @name ||= name
       @regex ||= regex
       url = @url + "action/includeInContext"
+      query = {:zapapiformat => @format,:contextName => @name,:regex => @regex}
+      Requester.get(url,query)
+    end
+    def exclude_from_context(name = nil,regex = nil)
+      @name ||= name
+      @regex ||= regex
+      url = @url + "action/excludeFromContext"
       query = {:zapapiformat => @format,:contextName => @name,:regex => @regex}
       Requester.get(url,query)
     end

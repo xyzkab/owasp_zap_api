@@ -45,6 +45,18 @@ module OwaspZapApi
     cx = Context.new(name: name, regex: regex)
     cx.include_in_context
   end
+  def self.context_exclude(name,regex)
+    cx = Context.new(name: name, regex: regex)
+    cx.exclude_from_context
+  end
+  def self.context_include_regexs(name)
+    cx = Context.new(name: name)
+    cx.include_regexs
+  end
+  def self.context_exclude_regexs(name)
+    cx = Context.new(name: name)
+    cx.exclude_regexs
+  end
   def self.alerts(baseurl = nil, start = nil, count = nil)
     al = Alert.new(baseurl: baseurl, start: start, count: count)
     al.alerts['alerts']
