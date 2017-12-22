@@ -6,7 +6,7 @@ require 'core/alert'
 require 'core/message'
 
 module OwaspZapApi
-  ZAPI = "http://127.0.0.1:9090/"
+  URL = "http://127.0.0.1:8080/"
   def self.pscan_only_in_scope?
     ps = PscanOnlyInScope.new
     ps.view['scanOnlyInScope'] == "true" ? true : false

@@ -7,7 +7,7 @@ module OwaspZapApi
       @count = params[:count]
       @format = params[:format] || 'JSON'
       @baseurl = params[:baseurl]
-      @url = ZAPI + "#{@format}/core/"
+      @url = URL + "#{@format}/core/"
     end
     def messages
       url = @url + "view/messages"

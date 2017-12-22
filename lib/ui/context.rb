@@ -5,7 +5,7 @@ module OwaspZapApi
       @name = params[:name]
       @regex = params[:regex]
       @format = params[:format] || 'JSON'
-      @url = ZAPI + "#{@format}/context/"
+      @url = URL + "#{@format}/context/"
     end
     def list
       url = @url + "view/contextList/"
