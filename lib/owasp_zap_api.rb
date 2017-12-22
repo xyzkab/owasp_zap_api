@@ -75,7 +75,7 @@ module OwaspZapApi
   end
   def self.messages(baseurl = nil, start = nil, count = nil)
     ms = Message.new(baseurl: baseurl, start: start, count: count)
-    ms.list['messages']
+    ms.messages['messages']
   end
   def self.total_messages(baseurl = nil)
     tm = Message.new(baseurl: baseurl)
