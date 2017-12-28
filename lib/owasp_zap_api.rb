@@ -4,9 +4,12 @@ require 'ui/context'
 require 'ui/pscan_only_in_scope'
 require 'core/alert'
 require 'core/message'
+require 'core/message_results'
+require 'ascan/scan'
 
 module OwaspZapApi
-  URL = "http://127.0.0.1:8080/"
+  #URL = "http://127.0.0.1:8080/"
+  URL = "http://l33tzaph:8080/"
   def self.pscan_only_in_scope?
     ps = PscanOnlyInScope.new
     ps.view['scanOnlyInScope'] == "true" ? true : false
@@ -55,7 +58,7 @@ module OwaspZapApi
   end
   def self.context_exclude_regexs(name)
     cx = Context.new(name: name)
-    cx.exclude_regexs
+    cx.exclude_regexs["excludeRegexs"]
   end
   def self.alerts(baseurl = nil, start = nil, count = nil)
     al = Alert.new(baseurl: baseurl, start: start, count: count)
@@ -69,10 +72,6 @@ module OwaspZapApi
     ms = Message.new(id: id)
     ms.message['message']
   end
-  def self.message_ctype(id)
-    message(id)['responseHeader'].match(/Content-Type: (.*)\r/)
-    $1
-  end
   def self.messages(baseurl = nil, start = nil, count = nil)
     ms = Message.new(baseurl: baseurl, start: start, count: count)
     ms.messages['messages']
@@ -80,5 +79,17 @@ module OwaspZapApi
   def self.total_messages(baseurl = nil)
     tm = Message.new(baseurl: baseurl)
     tm.number['numberOfMessages'].to_i
+  end
+  def self.ascans
+    as = Scan.new
+    as.scans['scans']
+  end
+  def self.exclude_from_scan(regex)
+    as = Scan.new(regex: regex)
+    as.exclude_from_scan
+  end
+  def self.excluded_from_scans
+    as = Scan.new
+    as.excluded_from_scans['excludedFromScan']
   end
 end
