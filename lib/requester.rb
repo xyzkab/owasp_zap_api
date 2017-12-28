@@ -7,7 +7,11 @@ module OwaspZapApi
       jp(HTTP.post(url, :json => data))
     end
     def self.jp(string)
-      JSON.parse string
+      begin
+        JSON.parse(string)
+      rescue JSON::ParserError => e
+        string
+      end
     end
   end
 end
