@@ -5,6 +5,7 @@ require 'ui/pscan_only_in_scope'
 require 'core/alert'
 require 'core/message'
 require 'core/message_results'
+require 'core/alert_results'
 require 'ascan/scan'
 
 module OwaspZapApi
