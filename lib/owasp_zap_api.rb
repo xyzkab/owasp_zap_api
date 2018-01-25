@@ -6,6 +6,7 @@ require 'core/alert'
 require 'core/message'
 require 'core/message_results'
 require 'core/alert_results'
+require 'core/shutdown'
 require 'ascan/scan'
 
 module OwaspZapApi
@@ -92,5 +93,9 @@ module OwaspZapApi
   def self.excluded_from_scans
     as = Scan.new
     as.excluded_from_scans['excludedFromScan']
+  end
+  def self.shutdown
+    sh = Shutdown.new
+    sh.now['Result']
   end
 end
