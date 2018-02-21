@@ -5,6 +5,30 @@ module OwaspZapApi
       @format = params[:format] || 'JSON'
       @url = URL + "#{@format}/ascan/"
       @regex = params[:regex]
+      @url_target = params[:url_target]
+      @context_id = params[:context_id]
+      @user_id = params[:user_id]
+    end
+    def scan(url_target = nil, context_id = nil)
+      @context_id ||= context_id
+      @url_target ||= url_target
+      url = @url + "action/scan"
+      query = {:zapapiformat => @format, :url => @url_target, :context_id => @context_id}
+      Requester.get(url,query)
+    end
+    def scan_as(url_target = nil, context_id = nil, user_id = nil)
+      @user_id ||= user_id
+      @context_id ||= context_id
+      @url_target ||= url_target
+      url = @url + "action/scanAsUser"
+      query = {:zapapiformat => @format, :url => @url_target, :context_id => @context_id, :userId => @user_id}
+      Requester.get(url,query)
+    end
+    def status(id = nil)
+      @id ||= id ? id : Time.now.to_i
+      url = @url + "view/status"
+      query = {:zapapiformat => @format, :scanId => @id}
+      Requester.get(url,query)
     end
     def scans
       url = @url + "view/scans"

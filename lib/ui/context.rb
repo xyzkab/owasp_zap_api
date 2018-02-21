@@ -7,6 +7,12 @@ module OwaspZapApi
       @format = params[:format] || 'JSON'
       @url = URL + "#{@format}/context/"
     end
+    def context(name = nil)
+      @name ||= name
+      url = @url + "view/context"
+      query = {:zapapiformat => @format, :contextName => @name}
+      Requester.get(url,query)
+    end
     def list
       url = @url + "view/contextList/"
       query = {:zapapiformat => @format}

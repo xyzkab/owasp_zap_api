@@ -1,5 +1,6 @@
 module OwaspZapApi
   class MessageResults
+    attr_reader :responsebody
     def initialize(data = {})
       @id = data['id'] || ""
       @rtt = data['rtt'] || ""
@@ -21,11 +22,14 @@ module OwaspZapApi
       $1
     end
     def response_code
-      response_code_message.split(" ").first
+      response_code_message.split(" ").first.to_i
     end
     def response_code_message
-      @responseheader.match(/HTTP\/\d{1}.\d{1} (.*) \r/i)
+      @responseheader.match(/HTTP\/\d{1}.\d{1} (.*) *\r\n/i)
       $1
+    end
+    def requestbody
+      Rack::Utils.parse_nested_query(@requestbody)
     end
   end
 end

@@ -1,6 +1,8 @@
 require 'http'
 require 'requester'
 require 'ui/context'
+require 'ui/users'
+require 'ui/authentication'
 require 'ui/pscan_only_in_scope'
 require 'core/alert'
 require 'core/message'
@@ -12,6 +14,86 @@ require 'ascan/scan'
 module OwaspZapApi
   #URL = "http://127.0.0.1:8080/"
   URL = "http://l33tzaph:8080/"
+  def self.auth_method(cid)
+    au = Authentication.new(context_id: cid)
+    au.authentication_method
+  end
+  def self.auth_method_set(cid,url,data)
+    au = Authentication.new(context_id: cid,login_url: url,login_data: data)
+    au.authentication_method_set
+  end
+  def self.auth_method_conf_param(name)
+    au = Authentication.new(name: name)
+    au.method_config_params
+  end
+  def self.auth_form_based
+    auth_method_conf_param('formBasedAuthentication')['methodConfigParams']
+  end
+  def self.auth_logged_indicator_set(cid,regex)
+    au = Authentication.new(context_id: cid, login_regex: regex)
+    au.logged_indicator_set
+  end
+  def self.auth_logged_indicator(cid)
+    au = Authentication.new(context_id: cid)
+    re = au.logged_indicator['logged_in_regex'].to_s
+    re.empty? ? false : re
+  end
+  def self.auth_logout_indicator(cid)
+    au = Authentication.new(context_id: cid)
+    re = au.logout_indicator['logged_out_regex'].to_s
+    re.empty? ? false : re
+  end
+  def self.auth_supported_methods
+    au = Authentication.new
+    au.supported_methods
+  end
+  def self.users(cid)
+    us = Users.new(context_id: cid)
+    us.list
+  end
+  def self.user(id,cid)
+    us = Users.new(id: id,context_id: cid)
+    us.find
+  end
+  def self.user_auth_creds_conf_params(cid)
+    us = Users.new(context_id: cid)
+    us.authentication_credentials_config_params
+  end
+  def self.user_auth_creds(id,cid)
+    us = Users.new(id: id,context_id: cid)
+    us.authentication_credentials
+  end
+  def self.user_save(name,cid)
+    us = Users.new(name: name, context_id: cid)
+    us.save['userId']
+  end
+  def self.user_remove(id,cid)
+    us = Users.new(id: id, context_id: cid)
+    us.destroy['Result'] == "OK" ? true : false
+  end
+  def self.user_enable(id,cid)
+    us = Users.new(id: id, context_id: cid, enabled: true)
+    us.enable
+  end
+  def self.user_disable(id,cid)
+    us = Users.new(id: id, context_id: cid, enabled: false)
+    us.enable
+  end
+  def self.user_auth_cred_set(id,cid,username,password)
+    us = Users.new(id: id, context_id: cid, username: username, password: password)
+    us.authentication_credential_set['Result'] ? true : false
+  end
+  def self.scan(url,cid)
+    as = Scan.new(url_target: url, context_id: cid)
+    as.scan
+  end
+  def self.scan_status(id)
+    as = Scan.new(id: id)
+    as.status['status']
+  end
+  def self.scan_exist?(id)
+    scan_status(id) ? true : false
+  end
   def self.pscan_only_in_scope?
     ps = PscanOnlyInScope.new
     ps.view['scanOnlyInScope'] == "true" ? true : false
@@ -22,6 +104,10 @@ module OwaspZapApi
   def self.pscan_only_in_scope_set(scope = false)
     ps = PscanOnlyInScope.new(scope: scope)
     ps.set
+  end
+  def self.context(context)
+    cx = Context.new(name: context)
+    cx.context['context']
   end
   def self.contexts
     cx = Context.new
@@ -72,7 +158,7 @@ module OwaspZapApi
   end
   def self.message(id)
     ms = Message.new(id: id)
-    ms.message['message']
+    MessageResults.new(ms.message['message'])
   end
   def self.messages(baseurl = nil, start = nil, count = nil)
     ms = Message.new(baseurl: baseurl, start: start, count: count)
