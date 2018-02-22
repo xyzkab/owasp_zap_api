@@ -8,7 +8,7 @@ module OwaspZapApi
       @login_regex = params[:login_regex]
       @logout_regex = params[:logout_regex]
       @login_data = params[:login_data] || {}
-      @url = URL + "#{@format}/authentication/"
+      @url = OwaspZapApi.url + "#{@format}/authentication/"
     end
     def authentication_method_set(context_id = nil)
       @context_id ||= context_id

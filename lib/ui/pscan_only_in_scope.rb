@@ -3,7 +3,7 @@ module OwaspZapApi
     def initialize(params = {})
       @scope = params[:scope]
       @format = params[:format] || 'JSON'
-      @url = URL + "#{@format}/pscan/"
+      @url = OwaspZapApi.url + "#{@format}/pscan/"
     end
     def set
       url = @url + "action/setScanOnlyInScope/"

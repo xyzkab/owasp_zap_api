@@ -3,7 +3,7 @@ module OwaspZapApi
     def initialize(params = {})
       @id = params[:id]
       @format = params[:format] || 'JSON'
-      @url = URL + "#{@format}/ascan/"
+      @url = OwaspZapApi.url + "#{@format}/ascan/"
       @regex = params[:regex]
       @url_target = params[:url_target]
       @context_id = params[:context_id]

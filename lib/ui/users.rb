@@ -8,7 +8,7 @@ module OwaspZapApi
       @password = params[:password]
       @context_id = params[:context_id]
       @format = params[:format] || 'JSON'
-      @url = URL + "#{@format}/users/"
+      @url = OwaspZapApi.url + "#{@format}/users/"
     end
     def save(name = nil, context_id = nil)
       @name ||= name

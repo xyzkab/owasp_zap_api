@@ -2,7 +2,7 @@ module OwaspZapApi
   class Shutdown
     def initialize(params = {})
       @format = params[:format] || 'JSON'
-      @url = URL + "#{@format}/core/"
+      @url = OwaspZapApi.url + "#{@format}/core/"
     end
     def now
       url = @url + "action/shutdown/"

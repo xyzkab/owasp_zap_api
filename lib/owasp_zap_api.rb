@@ -13,8 +13,9 @@ require 'ascan/scan'
 require 'ascan/scan_results'
 
 module OwaspZapApi
-  #URL = "http://127.0.0.1:8080/"
-  URL = "http://l33tzaph:8080/"
+  class << self
+    attr_accessor :url
+  end
   def self.auth_method(cid)
     au = Authentication.new(context_id: cid)
     au.authentication_method
