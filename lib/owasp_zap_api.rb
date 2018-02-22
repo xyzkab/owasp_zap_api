@@ -10,6 +10,7 @@ require 'core/message_results'
 require 'core/alert_results'
 require 'core/shutdown'
 require 'ascan/scan'
+require 'ascan/scan_results'
 
 module OwaspZapApi
   #URL = "http://127.0.0.1:8080/"
@@ -85,11 +86,11 @@ module OwaspZapApi
   end
   def self.scan(url,cid)
     as = Scan.new(url_target: url, context_id: cid)
-    as.scan
+    ScanResults.new(as.scan)
   end
   def self.scan_status(id)
     as = Scan.new(id: id)
-    as.status['status']
+    ScanResults.new(as.status)
   end
   def self.scan_exist?(id)
     scan_status(id) ? true : false
