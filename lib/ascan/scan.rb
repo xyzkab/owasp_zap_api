@@ -13,7 +13,7 @@ module OwaspZapApi
       @context_id ||= context_id
       @url_target ||= url_target
       url = @url + "action/scan"
-      query = {:zapapiformat => @format, :url => @url_target, :context_id => @context_id}
+      query = {:zapapiformat => @format, :url => @url_target, :contextId => @context_id}
       Requester.get(url,query)
     end
     def scan_as(url_target = nil, context_id = nil, user_id = nil)
@@ -21,7 +21,7 @@ module OwaspZapApi
       @context_id ||= context_id
       @url_target ||= url_target
       url = @url + "action/scanAsUser"
-      query = {:zapapiformat => @format, :url => @url_target, :context_id => @context_id, :userId => @user_id}
+      query = {:zapapiformat => @format, :url => @url_target, :contextId => @context_id, :userId => @user_id}
       Requester.get(url,query)
     end
     def status(id = nil)
