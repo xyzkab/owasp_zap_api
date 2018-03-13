@@ -152,7 +152,7 @@ module OwaspZapApi
   end
   def self.alerts(baseurl = nil, start = nil, count = nil)
     al = Alert.new(baseurl: baseurl, start: start, count: count)
-    al.alerts['alerts']
+    al.alerts['alerts'].map{|e|AlertResults.new(e)}
   end
   def self.total_alerts(baseurl = nil)
     na = Alert.new(baseurl: baseurl)
