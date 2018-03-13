@@ -27,7 +27,7 @@ module OwaspZapApi
     def url_method
       @method
     end
-    def url_params
+    def param
       @param
     end
     def name
