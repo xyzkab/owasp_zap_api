@@ -40,8 +40,7 @@ module OwaspZapApi
       @description
     end
     def content_type
-      message = OwaspZapApi.message(@message_id)
-      MessageResults.new(message).content_type
+      OwaspZapApi.message(@message_id).content_type
     end
   end
 end
