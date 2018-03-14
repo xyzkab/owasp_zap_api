@@ -3,7 +3,7 @@ require 'requester'
 require 'ui/context'
 require 'ui/users'
 require 'ui/authentication'
-require 'ui/pscan_only_in_scope'
+require 'ui/pscan'
 require 'core/alert'
 require 'core/message'
 require 'core/message_results'
@@ -16,6 +16,8 @@ module OwaspZapApi
   class << self
     attr_accessor :url
   end
+  #
+  # Authentication methods
   def self.auth_method(cid)
     au = Authentication.new(context_id: cid)
     au.authentication_method
@@ -49,6 +51,8 @@ module OwaspZapApi
     au = Authentication.new
     au.supported_methods
   end
+  #
+  # User methods
   def self.users(cid)
     us = Users.new(context_id: cid)
     us.list
@@ -96,17 +100,34 @@ module OwaspZapApi
   def self.scan_exist?(id)
     scan_status(id) ? true : false
   end
+  # 
+  # Passive Scan methods
+  def self.pscan_enable
+    pscan_set_enabled(true)
+  end
+  def self.pscan_disable
+    pscan_set_enabled(false)
+  end
+  def self.pscan_set_enabled(enabled = true)
+    ps = Pscan.new(enabled: enabled)
+    ps.set_enabled
+  end
   def self.pscan_only_in_scope?
-    ps = PscanOnlyInScope.new
-    ps.view['scanOnlyInScope'] == "true" ? true : false
+    ps = Pscan.new
+    ps.only_in_scope?['scanOnlyInScope'] == "true" ? true : false
   end
-  def self.pscan_only_in_scope_setrue
-    pscan_only_in_scope_set(true)
+  def self.pscan_enable_in_scope
+    pscan_set_only_in_scope(true)
   end
-  def self.pscan_only_in_scope_set(scope = false)
-    ps = PscanOnlyInScope.new(scope: scope)
-    ps.set
+  def self.pscan_disable_in_scope
+    pscan_set_only_in_scope(false)
   end
+  def self.pscan_set_only_in_scope(inscope = false)
+    ps = Pscan.new(only_in_scope: inscope)
+    ps.set_only_in_scope
+  end
+  #
+  # Context methods
   def self.context(context)
     cx = Context.new(name: context)
     cx.context['context']
@@ -150,6 +171,8 @@ module OwaspZapApi
     cx = Context.new(name: name)
     cx.exclude_regexs["excludeRegexs"]
   end
+  #
+  # Alert methods
   def self.alerts(baseurl = nil, start = nil, count = nil)
     al = Alert.new(baseurl: baseurl, start: start, count: count)
     al.alerts['alerts'].map{|e|AlertResults.new(e)}
@@ -158,6 +181,8 @@ module OwaspZapApi
     na = Alert.new(baseurl: baseurl)
     na.number['numberOfAlerts'].to_i
   end
+  #
+  # Message methods
   def self.message(id)
     ms = Message.new(id: id)
     MessageResults.new(ms.message['message'])
@@ -170,6 +195,8 @@ module OwaspZapApi
     tm = Message.new(baseurl: baseurl)
     tm.number['numberOfMessages'].to_i
   end
+  #
+  # ActiveScan methods
   def self.ascans
     as = Scan.new
     as.scans['scans']
@@ -182,6 +209,8 @@ module OwaspZapApi
     as = Scan.new
     as.excluded_from_scans['excludedFromScan']
   end
+  #
+  # Core methods
   def self.shutdown
     sh = Shutdown.new
     sh.now['Result']
