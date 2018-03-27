@@ -39,6 +39,9 @@ module OwaspZapApi
     def description
       @description
     end
+    def payload
+      @attack
+    end
     def content_type
       OwaspZapApi.message(@message_id).content_type
     end
