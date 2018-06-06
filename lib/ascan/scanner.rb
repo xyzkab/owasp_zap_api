@@ -1,7 +1,7 @@
 module OwaspZapApi
   class Scanner
     def initialize(params = {})
-      @ids = params[:ids]
+      @ids = params[:ids] || []
       @format = params[:format] || 'JSON'
       @url = OwaspZapApi.url + "#{@format}/ascan/"
       @scan_policy = params[:scan_policy] || "Default Policy"
