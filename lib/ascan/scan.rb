@@ -46,5 +46,11 @@ module OwaspZapApi
       query = {:zapapiformat => @format}
       Requester.get(url,query)
     end
+    def max_results_to_list(count = 1000)
+      return if count.to_i == 1000
+      url = @url + "action/setOptionMaxResultsToList"
+      query = {:zapapiformat => @format, :Integer => count}
+      Requester.get(url,query)
+    end
   end
 end
