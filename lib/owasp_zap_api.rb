@@ -10,6 +10,7 @@ require 'core/message_results'
 require 'core/alert_results'
 require 'core/shutdown'
 require 'ascan/scan'
+require 'ascan/scanner'
 require 'ascan/scan_results'
 
 module OwaspZapApi
@@ -208,6 +209,18 @@ module OwaspZapApi
   def self.excluded_from_scans
     as = Scan.new
     as.excluded_from_scans['excludedFromScan']
+  end
+  def self.scanners(policy = nil)
+    as = Scanner.new(scan_policy: policy)
+    as.lists["scanners"]
+  end
+  def self.find_scanner(name,policy = nil)
+    lists = scanners(policy)
+    lists.find{|e|e['name'].downcase == name.downcase} || {}
+  end
+  def self.disable_scanners(ids,policy = nil)
+    as = Scanner.new(ids: ids, scan_policy: policy)
+    as.disable_scanners["Result"]
   end
   #
   # Core methods
