@@ -222,6 +222,10 @@ module OwaspZapApi
     as = Scanner.new(ids: ids, scan_policy: policy)
     as.disable_scanners["Result"]
   end
+  def self.speedup_ascan
+    as = Scan.new
+    as.max_results_to_list(0)
+  end
   #
   # Core methods
   def self.shutdown
